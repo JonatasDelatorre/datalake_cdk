@@ -1,0 +1,53 @@
+*.swp
+package-lock.json
+__pycache__
+.pytest_cache
+.venv
+*.egg-info
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# Ignore Node.js dependencies (for TypeScript/JavaScript projects)
+node_modules/
+*.log
+
+# Python dependencies (for Python projects)
+*.pyc
+*.pyo
+__pycache__/
+.env
+*.egg-info/
+.venv/
+pip-wheel-metadata/
+
+# CDK outputs
+cdk.out/
+cdk.context.json
+
+# IDE settings
+.idea/
+.vscode/
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Build artifacts (if using a custom build setup)
+dist/
+build/
+
+# Terraform (if used alongside CDK)
+*.tfstate
+*.tfstate.backup
+
+# AWS credentials and sensitive files
+*.pem
+*.key
