@@ -1,2 +1,1 @@
-# datalake_cdk
-Simple Datalake Using AWS CDK
+# Welcome to your AWS DDK project!
