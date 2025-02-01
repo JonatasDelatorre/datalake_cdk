@@ -33,8 +33,11 @@ class DataCatalogs(Construct):
             self, 'curated-crawler',
             name=f'{self.stack_name}-curated-crawler',
             role=glue_role.role_arn,
-            database_name='cinema_sell',
+            database_name='heath_data',
             targets={
-                's3Targets': [{"path": f's3://{curated_bucket.bucket_name}/user_data/'}]
+                's3Targets': [
+                    {"path": f's3://{curated_bucket.bucket_name}/HealthData/'},
+                    {"path": f's3://{curated_bucket.bucket_name}/Workouts/'}
+                ]
             }
         )

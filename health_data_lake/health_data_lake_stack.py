@@ -6,8 +6,9 @@ from aws_cdk import (
 )
 
 from .datalake.data.buckets import DatalakeBuckets
-
 from .datalake.data.glue_crawlers import DataCatalogs
+from .datalake.data.kinesis_firehose import DatalakeDeliveryStream
+
 from .datalake.process_pipeline.lambdas import DatalakeLambdas
 from .datalake.process_pipeline.glue_job import DatalakeGlueJobs
 
@@ -29,6 +30,17 @@ class HealthDataLakeStack(Stack):
 
         # ========================================================================
         # ========================== DATA CATALOG ================================
+        # ========================================================================
+
+        data_stream = DatalakeDeliveryStream(
+            self, 'DatalakeDeliveryStream',
+            raw_bucket=raw_bucket
+        )
+
+        data_stream = data_stream.get_delivery_stream
+
+        # ========================================================================
+        # ========================= DATA STREAMING ===============================
         # ========================================================================
 
         data_catalogs = DataCatalogs(

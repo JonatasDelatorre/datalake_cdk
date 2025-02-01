@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_stepfunctions_tasks as _stf_tasks,
     aws_lambda as _lambda,
     aws_glue as _glue,
+    aws_iam as _iam,
     Duration
 )
 
@@ -35,7 +36,8 @@ class DatalakeProcessSTF(Construct):
 
         process_task = _stf_tasks.GlueStartJobRun(
             self, "Process Data Task",
-            glue_job_name=process_glue_job.name
+            glue_job_name=process_glue_job.name,
+            integration_pattern=_stf.IntegrationPattern.RUN_JOB
         )
 
         invoke_crawler_task = _stf_tasks.LambdaInvoke(
@@ -73,11 +75,20 @@ class DatalakeProcessSTF(Construct):
                         )
             )
 
+        stepfunctions_role = _iam.Role(
+            self, "StepFunctionsExecutionRole",
+            assumed_by=_iam.ServicePrincipal("states.amazonaws.com"),
+            managed_policies=[
+                _iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSGlueServiceRole"),  # Permissões para o Glue
+                _iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaRole"),  # Permissões para Lambda
+            ]
+        )
 
         # Create state machine
         self.stf = _stf.StateMachine(
             self, "StateMachine Pipeline",
             state_machine_name=f"{self.stack_name}-state-machine",
             definition_body=_stf.DefinitionBody.from_chainable(definition),
+            role=stepfunctions_role,
             timeout=Duration.minutes(15)
         )
