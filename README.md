@@ -1,7 +1,8 @@
 
 # Initial instructions for CDK Project
 
-This is a blank project for CDK development with Python.
+## Architecture
+![Architecture](img/architecture.png)
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
